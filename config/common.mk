@@ -1,4 +1,4 @@
-PRODUCT_BRAND ?= LineageOS
+PRODUCT_BRAND ?= KiroOS
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
@@ -117,12 +117,10 @@ PRODUCT_PACKAGES += \
 
 # Custom CM packages
 PRODUCT_PACKAGES += \
-    AudioFX \
     CMSettingsProvider \
     LineageSetupWizard \
     Eleven \
     ExactCalculator \
-    Jelly \
     LockClock \
     Trebuchet \
     Updater \
@@ -229,8 +227,15 @@ endif
 
 DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 
-PRODUCT_VERSION_MAJOR = 14
-PRODUCT_VERSION_MINOR = 1
+# KiroOS Version and Branding Configuration
+KIRO_NAME := KiroOS
+KIRO_VERSION := 1.0
+KIRO_DISPLAY_VERSION := KiroOS 1.0
+CUSTOM_BUILD_DISPLAY_ID := KiroOS 10001.$(shell date -u +%Y%m%d).001
+
+PRODUCT_VERSION_MAJOR = 1
+PRODUCT_VERSION_MINOR = 0
+PRODUCT_VERSION_MAINTENANCE := 0
 PRODUCT_VERSION_MAINTENANCE := 0
 
 ifeq ($(TARGET_VENDOR_SHOW_MAINTENANCE_VERSION),true)
@@ -289,47 +294,50 @@ endif
 
 ifeq ($(CM_BUILDTYPE), RELEASE)
     ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
+        LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
     else
         ifeq ($(TARGET_BUILD_VARIANT),user)
             ifeq ($(CM_VERSION_MAINTENANCE),0)
-                LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
+                LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
             else
-                LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
+                LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
             endif
         else
-            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
+            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
         endif
     endif
 else
     ifeq ($(CM_VERSION_MAINTENANCE),0)
         ifeq ($(LINEAGE_VERSION_APPEND_TIME_OF_DAY), TRUE)
-            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d_%H%M%S)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
         else
-            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
         endif
     else
         ifeq ($(LINEAGE_VERSION_APPEND_TIME_OF_DAY), TRUE)
-            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(shell date -u +%Y%m%d_%H%M%S)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
         else
-            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
         endif
     endif
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lineage.version=$(LINEAGE_VERSION) \
     ro.cm.version=$(LINEAGE_VERSION) \
-    ro.cm.releasetype=$(CM_BUILDTYPE) \
-    ro.cm.build.version=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR) \
-    ro.modversion=$(LINEAGE_VERSION) \
-    ro.cmlegal.url=https://lineageos.org/legal
+    ro.cm.releasetype=RELEASE \
+    ro.cm.build.version=1.0 \
+    ro.modversion=KiroOS-1.0-$(CM_BUILD) \
+    ro.kiro.name=KiroOS \
+    ro.kiro.version=1.0 \
+    ro.cmlegal.url=https://kiroos.org/legal
 
 PRODUCT_EXTRA_RECOVERY_KEYS += \
     vendor/cm/build/target/product/security/lineage
 
 -include vendor/cm-priv/keys/keys.mk
 
-CM_DISPLAY_VERSION := $(LINEAGE_VERSION)
+CM_DISPLAY_VERSION := KiroOS 1.0
 
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),)
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
@@ -346,16 +354,13 @@ ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
             TARGET_VENDOR_RELEASE_BUILD_ID := $(TARGET_VENDOR_RELEASE_BUILD_ID)
         endif
         ifeq ($(CM_VERSION_MAINTENANCE),0)
-            CM_DISPLAY_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
+            CM_DISPLAY_VERSION := KiroOS 1.0
         else
-            CM_DISPLAY_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
+            CM_DISPLAY_VERSION := KiroOS 1.0
         endif
     endif
 endif
 endif
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.cm.display.version=$(CM_DISPLAY_VERSION)
 
 -include $(WORKSPACE)/build_env/image-auto-bits.mk
 -include vendor/cm/config/partner_gms.mk
