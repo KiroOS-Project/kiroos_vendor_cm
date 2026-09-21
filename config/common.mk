@@ -116,14 +116,11 @@ PRODUCT_PACKAGES += \
     librsjni
 
 # Custom CM packages
+# KiroOS: LineageSetupWizard, Eleven, ExactCalculator and Trebuchet are replaced by
+# Kiro Setup Wizard, Pulse Music, Kiro Calculator and Kiro Home (packages/apps/KiroOS)
 PRODUCT_PACKAGES += \
     CMSettingsProvider \
-    LineageSetupWizard \
-    Eleven \
-    ExactCalculator \
     LockClock \
-    Trebuchet \
-    Updater \
     WallpaperPicker \
     WeatherProvider
 
@@ -231,7 +228,10 @@ DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 KIRO_NAME := KiroOS
 KIRO_VERSION := 1.0
 KIRO_DISPLAY_VERSION := KiroOS 1.0
-CUSTOM_BUILD_DISPLAY_ID := KiroOS 10001.$(shell date -u +%Y%m%d).001
+# The system identifies itself only as "KiroOS 1.0"; the build date is in ro.build.date.
+# The internal release (hotfix builds of 1.0) is in the build number: export KIRO_RELEASE.
+KIRO_RELEASE ?= 1.1
+CUSTOM_BUILD_DISPLAY_ID := KiroOS 1.0 ($(KIRO_RELEASE))
 
 PRODUCT_VERSION_MAJOR = 1
 PRODUCT_VERSION_MINOR = 0
@@ -329,8 +329,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.cm.build.version=1.0 \
     ro.modversion=KiroOS-1.0-$(CM_BUILD) \
     ro.kiro.name=KiroOS \
-    ro.kiro.version=1.0 \
-    ro.cmlegal.url=https://kiroos.org/legal
+    ro.kiro.version=1.0
+# KiroOS: set ro.cmlegal.url here when a legal page is published (the entry is hidden until then)
 
 PRODUCT_EXTRA_RECOVERY_KEYS += \
     vendor/cm/build/target/product/security/lineage

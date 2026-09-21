@@ -3,6 +3,4 @@ $(call inherit-product, vendor/cm/config/common.mk)
 
 PRODUCT_SIZE := full
 
-# Recorder
-PRODUCT_PACKAGES += \
-    Recorder
+# Recorder: replaced by Kiro Recorder (packages/apps/KiroOS)

@@ -6,9 +6,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
 
-# Telephony packages
+# Telephony packages (SMS/MMS: Kiro Messages, packages/apps/KiroOS)
 PRODUCT_PACKAGES += \
-    messaging \
     Stk \
     CellBroadcastReceiver
 

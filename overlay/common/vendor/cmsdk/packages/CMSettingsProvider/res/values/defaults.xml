@@ -18,5 +18,6 @@
     <!-- Defaults for Secure -->
 
     <!-- Default for CMSettings.Secure.STATS_COLLECTION -->
-    <bool name="def_stats_collection">true</bool>
+    <!-- KiroOS: off, the stats service reports to LineageOS servers -->
+    <bool name="def_stats_collection">false</bool>
 </resources>
