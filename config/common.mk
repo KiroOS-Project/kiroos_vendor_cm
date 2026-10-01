@@ -95,20 +95,20 @@ PRODUCT_PACKAGES += \
     bootanimation.zip
 
 # Required CM packages
+# KiroOS 2.1.1: Development (Dev Tools) is left out
 PRODUCT_PACKAGES += \
     BluetoothExt \
     CMAudioService \
     CMParts \
-    Development \
     Profiles \
     WeatherManagerService
 
 # Optional CM packages
+# KiroOS 2.1.1: Terminal is left out
 PRODUCT_PACKAGES += \
     libemoji \
     LiveWallpapersPicker \
-    PhotoTable \
-    Terminal
+    PhotoTable
 
 # Include explicitly to work around GMS issues
 PRODUCT_PACKAGES += \
@@ -118,15 +118,11 @@ PRODUCT_PACKAGES += \
 # Custom CM packages
 # KiroOS: LineageSetupWizard, Eleven, ExactCalculator and Trebuchet are replaced by
 # Kiro Setup Wizard, Pulse Music, Kiro Calculator and Kiro Home (packages/apps/KiroOS)
+# KiroOS 2.1.1: LockClock (cLock) and Exchange2 are left out
 PRODUCT_PACKAGES += \
     CMSettingsProvider \
-    LockClock \
     WallpaperPicker \
     WeatherProvider
-
-# Exchange support
-PRODUCT_PACKAGES += \
-    Exchange2
 
 # Extra tools in CM
 PRODUCT_PACKAGES += \
