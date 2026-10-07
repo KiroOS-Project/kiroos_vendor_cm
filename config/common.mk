@@ -220,14 +220,15 @@ endif
 
 DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 
-# KiroOS Version and Branding Configuration
+# KiroOS version and branding. The version is the release: 3.0 is Developer Beta 3 (the public
+# releases before it were 2.1 and 2.1.1). ~/kiro_build_env.sh exports KIRO_RELEASE and
+# KIRO_RELEASE_CHANNEL; these are the defaults without it.
 KIRO_NAME := KiroOS
-KIRO_VERSION := 1.0
-KIRO_DISPLAY_VERSION := KiroOS 1.0
-# The system identifies itself only as "KiroOS 1.0"; the build date is in ro.build.date.
-# The internal release (hotfix builds of 1.0) is in the build number: export KIRO_RELEASE.
-KIRO_RELEASE ?= 1.1
-CUSTOM_BUILD_DISPLAY_ID := KiroOS 1.0 ($(KIRO_RELEASE))
+KIRO_RELEASE ?= 3.0
+KIRO_RELEASE_CHANNEL ?= Developer Beta 3
+KIRO_VERSION := $(KIRO_RELEASE)
+KIRO_DISPLAY_VERSION := KiroOS $(KIRO_RELEASE)
+CUSTOM_BUILD_DISPLAY_ID := KiroOS $(KIRO_RELEASE) $(KIRO_RELEASE_CHANNEL)
 
 PRODUCT_VERSION_MAJOR = 1
 PRODUCT_VERSION_MINOR = 0
@@ -288,52 +289,28 @@ ifeq ($(CM_BUILDTYPE), UNOFFICIAL)
     endif
 endif
 
-ifeq ($(CM_BUILDTYPE), RELEASE)
-    ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-        LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
-    else
-        ifeq ($(TARGET_BUILD_VARIANT),user)
-            ifeq ($(CM_VERSION_MAINTENANCE),0)
-                LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
-            else
-                LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
-            endif
-        else
-            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
-        endif
-    endif
-else
-    ifeq ($(CM_VERSION_MAINTENANCE),0)
-        ifeq ($(LINEAGE_VERSION_APPEND_TIME_OF_DAY), TRUE)
-            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
-        else
-            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
-        endif
-    else
-        ifeq ($(LINEAGE_VERSION_APPEND_TIME_OF_DAY), TRUE)
-            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
-        else
-            LINEAGE_VERSION := 1.0-$(shell date -u +%Y%m%d)-$(CM_BUILD)
-        endif
-    endif
-endif
+# The package name and ro.cm.version: release, build date (local time, the date on the PC
+# clock), device: KiroOS-3.0-20261008-zerofltexx.zip
+KIROOS_VERSION := $(KIRO_RELEASE)-$(shell date +%Y%m%d)-$(CM_BUILD)
 
+# ro.lineage.* / ro.cm.* keep their names (cmsdk, CMParts and backuptool read them) and carry
+# KiroOS values
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.lineage.version=$(LINEAGE_VERSION) \
-    ro.cm.version=$(LINEAGE_VERSION) \
+    ro.lineage.version=$(KIROOS_VERSION) \
+    ro.cm.version=$(KIROOS_VERSION) \
     ro.cm.releasetype=RELEASE \
-    ro.cm.build.version=1.0 \
-    ro.modversion=KiroOS-1.0-$(CM_BUILD) \
+    ro.cm.build.version=$(KIRO_RELEASE) \
+    ro.modversion=KiroOS-$(KIRO_RELEASE)-$(CM_BUILD) \
     ro.kiro.name=KiroOS \
-    ro.kiro.version=1.0
+    ro.kiro.version=$(KIRO_RELEASE)
 # KiroOS: set ro.cmlegal.url here when a legal page is published (the entry is hidden until then)
 
-PRODUCT_EXTRA_RECOVERY_KEYS += \
-    vendor/cm/build/target/product/security/lineage
+# The KiroOS recovery takes only KiroOS packages: LineageOS's release key is no longer trusted
+# (PRODUCT_EXTRA_RECOVERY_KEYS vendor/cm/build/target/product/security/lineage was here)
 
 -include vendor/cm-priv/keys/keys.mk
 
-CM_DISPLAY_VERSION := KiroOS 1.0
+CM_DISPLAY_VERSION := KiroOS $(KIRO_RELEASE)
 
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),)
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
@@ -349,11 +326,7 @@ ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
         else
             TARGET_VENDOR_RELEASE_BUILD_ID := $(TARGET_VENDOR_RELEASE_BUILD_ID)
         endif
-        ifeq ($(CM_VERSION_MAINTENANCE),0)
-            CM_DISPLAY_VERSION := KiroOS 1.0
-        else
-            CM_DISPLAY_VERSION := KiroOS 1.0
-        endif
+        CM_DISPLAY_VERSION := KiroOS $(KIRO_RELEASE)
     endif
 endif
 endif
