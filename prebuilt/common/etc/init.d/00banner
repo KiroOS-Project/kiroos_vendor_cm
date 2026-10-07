@@ -4,5 +4,5 @@
 #
 L="log -p i -t kiroos"
 
-$L "KiroOS `getprop ro.kiroos.release` (`getprop ro.kiro.release.channel`)"
+$L "KiroOS `getprop ro.kiroos.version` (`getprop ro.kiroos.release`), `getprop ro.kiro.release.channel`"
 $L "Android `getprop ro.build.version.release`, build `getprop ro.cm.version`"

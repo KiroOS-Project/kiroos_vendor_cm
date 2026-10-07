@@ -220,15 +220,16 @@ endif
 
 DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 
-# KiroOS version and branding. The version is the release: 3.0 is Developer Beta 3 (the public
-# releases before it were 2.1 and 2.1.1). ~/kiro_build_env.sh exports KIRO_RELEASE and
-# KIRO_RELEASE_CHANNEL; these are the defaults without it.
+# KiroOS version and branding. The system is KiroOS 1.0; the release is in parentheses in the
+# build number: "KiroOS 1.0 (3.0)" is Developer Beta 3 (the public releases before it were 2.1
+# and 2.1.1). ~/kiro_build_env.sh exports KIRO_RELEASE and KIRO_RELEASE_CHANNEL; these are the
+# defaults without it.
 KIRO_NAME := KiroOS
+KIRO_VERSION := 1.0
+KIRO_DISPLAY_VERSION := KiroOS $(KIRO_VERSION)
 KIRO_RELEASE ?= 3.0
 KIRO_RELEASE_CHANNEL ?= Developer Beta 3
-KIRO_VERSION := $(KIRO_RELEASE)
-KIRO_DISPLAY_VERSION := KiroOS $(KIRO_RELEASE)
-CUSTOM_BUILD_DISPLAY_ID := KiroOS $(KIRO_RELEASE) $(KIRO_RELEASE_CHANNEL)
+CUSTOM_BUILD_DISPLAY_ID := KiroOS $(KIRO_VERSION) ($(KIRO_RELEASE))
 
 PRODUCT_VERSION_MAJOR = 1
 PRODUCT_VERSION_MINOR = 0
@@ -289,9 +290,9 @@ ifeq ($(CM_BUILDTYPE), UNOFFICIAL)
     endif
 endif
 
-# The package name and ro.cm.version: release, build date (local time, the date on the PC
-# clock), device: KiroOS-3.0-20261008-zerofltexx.zip
-KIROOS_VERSION := $(KIRO_RELEASE)-$(shell date +%Y%m%d)-$(CM_BUILD)
+# The package name and ro.cm.version: version, release, build date (local time, the date on the
+# PC clock), device: KiroOS-1.0-3.0-20261008-zerofltexx.zip
+KIROOS_VERSION := $(KIRO_VERSION)-$(KIRO_RELEASE)-$(shell date +%Y%m%d)-$(CM_BUILD)
 
 # ro.lineage.* / ro.cm.* keep their names (cmsdk, CMParts and backuptool read them) and carry
 # KiroOS values
@@ -299,10 +300,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.lineage.version=$(KIROOS_VERSION) \
     ro.cm.version=$(KIROOS_VERSION) \
     ro.cm.releasetype=RELEASE \
-    ro.cm.build.version=$(KIRO_RELEASE) \
-    ro.modversion=KiroOS-$(KIRO_RELEASE)-$(CM_BUILD) \
+    ro.cm.build.version=$(KIRO_VERSION) \
+    ro.modversion=KiroOS-$(KIRO_VERSION)-$(CM_BUILD) \
     ro.kiro.name=KiroOS \
-    ro.kiro.version=$(KIRO_RELEASE)
+    ro.kiro.version=$(KIRO_VERSION)
 # KiroOS: set ro.cmlegal.url here when a legal page is published (the entry is hidden until then)
 
 # The KiroOS recovery takes only KiroOS packages: LineageOS's release key is no longer trusted
@@ -310,7 +311,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 -include vendor/cm-priv/keys/keys.mk
 
-CM_DISPLAY_VERSION := KiroOS $(KIRO_RELEASE)
+CM_DISPLAY_VERSION := KiroOS $(KIRO_VERSION)
 
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),)
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
@@ -326,7 +327,7 @@ ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
         else
             TARGET_VENDOR_RELEASE_BUILD_ID := $(TARGET_VENDOR_RELEASE_BUILD_ID)
         endif
-        CM_DISPLAY_VERSION := KiroOS $(KIRO_RELEASE)
+        CM_DISPLAY_VERSION := KiroOS $(KIRO_VERSION)
     endif
 endif
 endif
