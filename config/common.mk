@@ -220,16 +220,16 @@ endif
 
 DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 
-# KiroOS version and branding. The system is KiroOS 1.0; the release is in parentheses in the
-# build number: "KiroOS 1.0 (3.0)" is Developer Beta 3 (the public releases before it were 2.1
-# and 2.1.1). ~/kiro_build_env.sh exports KIRO_RELEASE and KIRO_RELEASE_CHANNEL; these are the
-# defaults without it.
+# KiroOS version and branding. The system is KiroOS 1.0. Beta 4: the build number shows just
+# "1.0" (it was "KiroOS 1.0 (3.0)"); which beta it is shows as the channel ("Developer Beta 4"
+# in KiroOS Update). KIRO_RELEASE (4.0) stays internal, for the OTA order and the package name.
+# ~/kiro_build_env.sh exports KIRO_RELEASE and KIRO_RELEASE_CHANNEL; these are the defaults.
 KIRO_NAME := KiroOS
 KIRO_VERSION := 1.0
 KIRO_DISPLAY_VERSION := KiroOS $(KIRO_VERSION)
-KIRO_RELEASE ?= 3.0
-KIRO_RELEASE_CHANNEL ?= Developer Beta 3
-CUSTOM_BUILD_DISPLAY_ID := KiroOS $(KIRO_VERSION) ($(KIRO_RELEASE))
+KIRO_RELEASE ?= 4.0
+KIRO_RELEASE_CHANNEL ?= Developer Beta 4
+CUSTOM_BUILD_DISPLAY_ID := $(KIRO_VERSION)
 
 PRODUCT_VERSION_MAJOR = 1
 PRODUCT_VERSION_MINOR = 0
