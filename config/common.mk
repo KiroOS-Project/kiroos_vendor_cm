@@ -105,9 +105,10 @@ PRODUCT_PACKAGES += \
 
 # Optional CM packages
 # KiroOS 2.1.1: Terminal is left out
+# KiroOS Beta 4.1: LiveWallpapersPicker ("Live Wallpapers") is left out: Canvas is the only
+# wallpaper picker
 PRODUCT_PACKAGES += \
     libemoji \
-    LiveWallpapersPicker \
     PhotoTable
 
 # Include explicitly to work around GMS issues
@@ -119,9 +120,9 @@ PRODUCT_PACKAGES += \
 # KiroOS: LineageSetupWizard, Eleven, ExactCalculator and Trebuchet are replaced by
 # Kiro Setup Wizard, Pulse Music, Kiro Calculator and Kiro Home (packages/apps/KiroOS)
 # KiroOS 2.1.1: LockClock (cLock) and Exchange2 are left out
+# KiroOS Beta 4.1: WallpaperPicker ("Wallpapers") is left out: Canvas replaces it
 PRODUCT_PACKAGES += \
     CMSettingsProvider \
-    WallpaperPicker \
     WeatherProvider
 
 # Extra tools in CM
@@ -227,8 +228,8 @@ DEVICE_PACKAGE_OVERLAYS += vendor/cm/overlay/common
 KIRO_NAME := KiroOS
 KIRO_VERSION := 1.0
 KIRO_DISPLAY_VERSION := KiroOS $(KIRO_VERSION)
-KIRO_RELEASE ?= 4.0
-KIRO_RELEASE_CHANNEL ?= Developer Beta 4
+KIRO_RELEASE ?= 4.1
+KIRO_RELEASE_CHANNEL ?= Developer Beta 4.1
 CUSTOM_BUILD_DISPLAY_ID := $(KIRO_VERSION)
 
 PRODUCT_VERSION_MAJOR = 1
